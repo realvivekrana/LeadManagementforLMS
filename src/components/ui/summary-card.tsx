@@ -46,11 +46,7 @@ export function SummaryCard({
       whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.98 }}
       className={cn(
- main
-        "rounded-lg md:rounded-xl p-3 sm:p-4 md:p-6 shadow-sm transition-all duration-300 cursor-pointer",
-
         "rounded-lg md:rounded-xl p-3 sm:p-4 md:p-6 shadow-sm transition-shadow hover:shadow-md",
- main
         variantStyles[variant]
       )}
     >
@@ -59,17 +55,13 @@ export function SummaryCard({
           <p
             className={cn(
               "text-xs sm:text-sm font-medium truncate",
- main
-              variant === "default" ? "text-gray-600" : "text-white/80"
-              
               variant === "default" ? "text-muted-foreground" : "opacity-80"
- main
             )}
           >
             {title}
           </p>
           <p className={cn(
-            "text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold tracking-tight",
+            "text-2xl md:text-3xl font-bold tracking-tight",
             variant === "default" ? "text-gray-900" : "text-white"
           )}>
             {value}
@@ -105,11 +97,7 @@ export function SummaryCard({
           animate={{ scale: 1 }}
           transition={{ delay: delay + 0.1, type: "spring", stiffness: 200 }}
           className={cn(
- main
-            "rounded-lg p-2 md:p-3 shrink-0",
-
             "rounded-lg p-2 md:p-3 transition-colors duration-200",
- main
             iconVariantStyles[variant]
           )}
         >
