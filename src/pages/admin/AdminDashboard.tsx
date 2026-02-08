@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { 
   Users, 
   TrendingUp, 
@@ -75,6 +75,9 @@ const AdminDashboard = () => {
   const [isLeadDetailOpen, setIsLeadDetailOpen] = useState(false);
   const [isUserDetailOpen, setIsUserDetailOpen] = useState(false);
   
+  // Search state
+  const [userSearchQuery, setUserSearchQuery] = useState("");
+  
   // Edit modal states
   const [isEditLeadOpen, setIsEditLeadOpen] = useState(false);
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
@@ -105,6 +108,16 @@ const AdminDashboard = () => {
   const activeAgents = users.filter((u) => u.role === "Agent" && u.status === "Active").length;
 
   const conversionRate = ((convertedLeads / totalLeads) * 100).toFixed(1);
+  
+  // Filtered users based on search query
+  const filteredUsers = useMemo(() => {
+    if (!userSearchQuery) return users;
+    return users.filter(user => 
+      user.name.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(userSearchQuery.toLowerCase()) ||
+      user.role.toLowerCase().includes(userSearchQuery.toLowerCase())
+    );
+  }, [users, userSearchQuery]);
 
   // Export functionality
   const handleExportData = () => {
@@ -622,6 +635,8 @@ const AdminDashboard = () => {
                 <Input 
                   placeholder="Search users..." 
                   className="pl-9 w-full sm:w-64 border-gray-300"
+                  value={userSearchQuery}
+                  onChange={(e) => setUserSearchQuery(e.target.value)}
                 />
               </div>
               <Dialog>
@@ -668,7 +683,7 @@ const AdminDashboard = () => {
           <div>
             {/* Mobile View - Cards */}
             <div className="md:hidden space-y-4">
-              {users.map((user, index) => (
+              {filteredUsers.map((user, index) => (
                 <motion.div
                   key={user.id}
                   initial={{ opacity: 0, x: -20 }}
@@ -741,7 +756,7 @@ const AdminDashboard = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {users.map((user) => (
+                  {filteredUsers.map((user) => (
                     <TableRow key={user.id} className="hover:bg-gray-50 border-gray-200">
                       <TableCell className="font-medium text-gray-900">{user.name}</TableCell>
                       <TableCell className="text-gray-600">{user.email}</TableCell>

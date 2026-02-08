@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bell, Search, Menu, X } from "lucide-react";
+import { Bell, Search, Menu, X, User, LogOut } from "lucide-react";
 import { DashboardSidebar } from "./DashboardSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { mockNotifications } from "@/data/mockData";
@@ -23,6 +24,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children, role, title }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [globalSearchQuery, setGlobalSearchQuery] = useState("");
   const isMobile = useIsMobile();
   const unreadCount = mockNotifications.filter((n) => !n.read).length;
 
@@ -108,6 +110,8 @@ export function DashboardLayout({ children, role, title }: DashboardLayoutProps)
                 <Input
                   placeholder="Search leads, users..."
                   className="w-48 lg:w-64 pl-9 bg-muted/50 border-0 focus-visible:ring-1 focus-visible:ring-primary"
+                  value={globalSearchQuery}
+                  onChange={(e) => setGlobalSearchQuery(e.target.value)}
                 />
               </div>
 
@@ -144,14 +148,34 @@ export function DashboardLayout({ children, role, title }: DashboardLayoutProps)
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* User Avatar */}
-              <div className="flex items-center gap-3 shrink-0">
-                <div className="h-8 w-8 md:h-9 md:w-9 rounded-full gradient-teal flex items-center justify-center">
-                  <span className="text-xs md:text-sm font-bold text-primary-foreground">
-                    {role[0].toUpperCase()}
-                  </span>
-                </div>
-              </div>
+              {/* User Profile Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="p-0 h-auto hover:bg-transparent">
+                    <div className="flex items-center gap-3 shrink-0 cursor-pointer">
+                      <div className="h-8 w-8 md:h-9 md:w-9 rounded-full gradient-teal flex items-center justify-center">
+                        <span className="text-xs md:text-sm font-bold text-primary-foreground">
+                          {role[0].toUpperCase()}
+                        </span>
+                      </div>
+                    </div>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    Profile Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    className="flex items-center gap-2 text-red-600 focus:text-red-600"
+                    onClick={() => window.location.href = '/'}
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
           
@@ -169,6 +193,8 @@ export function DashboardLayout({ children, role, title }: DashboardLayoutProps)
                   <Input
                     placeholder="Search leads, users..."
                     className="pl-9 bg-muted/50 border-0 focus-visible:ring-1 focus-visible:ring-primary"
+                    value={globalSearchQuery}
+                    onChange={(e) => setGlobalSearchQuery(e.target.value)}
                     autoFocus
                   />
                   <Button

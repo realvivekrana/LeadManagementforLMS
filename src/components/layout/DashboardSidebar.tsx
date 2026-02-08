@@ -14,6 +14,7 @@ import {
   ClipboardList,
   Target,
   X,
+  User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ const adminItems: SidebarItem[] = [
   { icon: ClipboardList, label: "Leads", path: "/admin/leads" },
   { icon: Users, label: "Users", path: "/admin/users" },
   { icon: BarChart3, label: "Reports", path: "/admin/reports" },
+  { icon: User, label: "Profile", path: "/admin/profile" },
   { icon: Settings, label: "Settings", path: "/admin/settings" },
 ];
 
@@ -44,6 +46,7 @@ const managerItems: SidebarItem[] = [
   { icon: Target, label: "Lead Assignment", path: "/manager/assign" },
   { icon: Users, label: "Team Performance", path: "/manager/team" },
   { icon: FileText, label: "Reports", path: "/manager/reports" },
+  { icon: User, label: "Profile", path: "/manager/profile" },
   { icon: Settings, label: "Settings", path: "/manager/settings" },
 ];
 
@@ -51,6 +54,7 @@ const agentItems: SidebarItem[] = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/agent" },
   { icon: ClipboardList, label: "My Leads", path: "/agent/leads" },
   { icon: UserPlus, label: "Add Lead", path: "/agent/add-lead" },
+  { icon: User, label: "Profile", path: "/agent/profile" },
   { icon: Settings, label: "Settings", path: "/agent/settings" },
 ];
 
