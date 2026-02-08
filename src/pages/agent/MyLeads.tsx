@@ -254,7 +254,7 @@ const MyLeads = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-xl border border-border bg-card shadow-sm overflow-hidden"
+        className="rounded-xl border border-border bg-card shadow-sm"
       >
         {filteredLeads.length === 0 ? (
           <div className="p-12 text-center">
@@ -273,18 +273,18 @@ const MyLeads = () => {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="w-full overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="bg-muted/50 hover:bg-muted/50">
-                    <TableHead className="min-w-[140px]">Lead Name</TableHead>
-                    <TableHead className="hidden sm:table-cell min-w-[180px]">Contact</TableHead>
-                    <TableHead className="hidden md:table-cell min-w-[150px]">Company</TableHead>
-                    <TableHead className="hidden md:table-cell min-w-[100px]">Source</TableHead>
-                    <TableHead className="min-w-[110px]">Status</TableHead>
-                    <TableHead className="hidden md:table-cell min-w-[130px]">Follow-up</TableHead>
-                    <TableHead className="text-right min-w-[100px]">Action</TableHead>
-                  </TableRow>
+                <TableRow className="bg-muted/50 hover:bg-muted/50 border-b">
+                  <TableHead className="min-w-[100px] sm:min-w-[120px] px-3 sm:px-4 py-3">Lead Name</TableHead>
+                  <TableHead className="min-w-[120px] sm:min-w-[150px] px-3 sm:px-4 py-3">Contact</TableHead>
+                  <TableHead className="hidden md:table-cell min-w-[120px] px-3 sm:px-4 py-3">Company</TableHead>
+                  <TableHead className="hidden lg:table-cell min-w-[100px] px-3 sm:px-4 py-3">Source</TableHead>
+                  <TableHead className="min-w-[90px] px-3 sm:px-4 py-3">Status</TableHead>
+                  <TableHead className="hidden lg:table-cell min-w-[110px] px-3 sm:px-4 py-3">Follow-up</TableHead>
+                  <TableHead className="text-right min-w-[70px] sm:min-w-[90px] px-3 sm:px-4 py-3">Action</TableHead>
+                </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredLeads.map((lead, index) => (
@@ -295,69 +295,66 @@ const MyLeads = () => {
                     transition={{ delay: index * 0.05 }}
                     className="hover:bg-muted/30 border-b border-border last:border-b-0 transition-colors"
                   >
-                    <TableCell className="font-medium text-sm">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-1">
-                        <span className="truncate">{lead.name}</span>
-                        <span className="text-xs text-muted-foreground sm:ml-2 hidden sm:inline">{lead.email}</span>
-                      </div>
+                    <TableCell className="font-medium text-xs sm:text-sm py-2 sm:py-3 px-3 sm:px-4">
+                      <span className="truncate block">{lead.name}</span>
                     </TableCell>
-                    <TableCell className="hidden sm:table-cell">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-sm">
-                          <Mail className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-                          <span className="text-muted-foreground truncate">
+                    <TableCell className="text-xs sm:text-sm py-2 sm:py-3 px-3 sm:px-4">
+                      <div className="space-y-0.5 sm:space-y-1">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <Mail className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-muted-foreground flex-shrink-0" />
+                          <span className="text-muted-foreground truncate text-xs">
                             {lead.email}
                           </span>
                         </div>
-                        <div className="flex items-center gap-2 text-sm">
-                          <Phone className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-                          <span className="text-muted-foreground truncate">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <Phone className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-muted-foreground flex-shrink-0" />
+                          <span className="text-muted-foreground truncate text-xs">
                             {lead.phone}
                           </span>
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      <div className="flex items-center gap-2">
-                        <Building2 className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-                        <span className="text-sm truncate">{lead.company}</span>
+                    <TableCell className="hidden md:table-cell text-xs sm:text-sm py-2 sm:py-3 px-3 sm:px-4">
+                      <div className="flex items-center gap-1 sm:gap-2">
+                        <Building2 className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-muted-foreground flex-shrink-0" />
+                        <span className="truncate text-xs sm:text-sm">{lead.company}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      <Badge variant="outline" className="text-xs">
+                    <TableCell className="hidden lg:table-cell py-2 sm:py-3 px-3 sm:px-4">
+                      <Badge variant="outline" className="text-xs whitespace-nowrap">
                         {lead.source}
                       </Badge>
                     </TableCell>
-                    <TableCell>
-                      <Badge className={`text-xs ${statusColors[lead.status]}`}>
+                    <TableCell className="py-2 sm:py-3 px-3 sm:px-4">
+                      <Badge className={`text-xs whitespace-nowrap ${statusColors[lead.status]}`}>
                         {lead.status.charAt(0).toUpperCase() +
                           lead.status.slice(1)}
                       </Badge>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">
+                    <TableCell className="hidden lg:table-cell text-xs sm:text-sm py-2 sm:py-3 px-3 sm:px-4">
                       {lead.nextFollowUp ? (
-                        <div className="flex items-center gap-2 text-sm">
-                          <CalendarDays className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-                          <span>
+                        <div className="flex items-center gap-1 sm:gap-2 text-xs">
+                          <CalendarDays className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-muted-foreground flex-shrink-0" />
+                          <span className="truncate">
                             {new Date(lead.nextFollowUp).toLocaleDateString()}
                           </span>
                           {new Date(lead.nextFollowUp).toDateString() ===
                             new Date().toDateString() && (
-                            <Badge className="text-xs bg-yellow-500/20 text-yellow-700 border border-yellow-200 dark:border-yellow-800 dark:text-yellow-400 dark:bg-yellow-950/20">
+                            <Badge className="text-xs bg-yellow-500/20 text-yellow-700 border border-yellow-200 dark:border-yellow-800 dark:text-yellow-400 dark:bg-yellow-950/20 whitespace-nowrap">
                               Today
                             </Badge>
                           )}
                         </div>
                       ) : (
-                        <span className="text-muted-foreground text-sm">—</span>
+                        <span className="text-muted-foreground text-xs">—</span>
                       )}
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right py-2 sm:py-3 px-3 sm:px-4">
                       <Button
                         size="sm"
                         variant="ghost"
                         onClick={() => handleLeadSelect(lead)}
-                        className="text-teal-600 hover:text-teal-700 hover:bg-teal-50 dark:hover:bg-teal-950/20 font-medium text-xs"
+                        className="text-teal-600 hover:text-teal-700 hover:bg-teal-50 dark:hover:bg-teal-950/20 font-medium text-xs px-2 h-7"
                       >
                         View
                       </Button>

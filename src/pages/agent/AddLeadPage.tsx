@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  X,
   CheckCircle2,
   AlertCircle,
   Building2,
@@ -227,14 +226,6 @@ const AddLeadPage = () => {
             className="mb-8"
           >
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleBack}
-                className="w-fit"
-              >
-                <X className="h-5 w-5" />
-              </Button>
               <div className="text-left sm:text-right">
                 <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
                   Add New Lead
