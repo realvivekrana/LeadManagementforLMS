@@ -12,6 +12,10 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminSettings from "./pages/admin/AdminSettings";
 import ManagerDashboard from "./pages/manager/ManagerDashboard";
+import ManagerTeam from "./pages/manager/ManagerTeam";
+import ManagerReports from "./pages/manager/ManagerReports";
+import ManagerLeads from "./pages/manager/ManagerLeads";
+import ManagerSettings from "./pages/manager/ManagerSettings";
 import AgentDashboard from "./pages/agent/AgentDashboard";
 import MyLeads from "./pages/agent/MyLeads";
 import AddLeadPage from "./pages/agent/AddLeadPage";
@@ -40,7 +44,10 @@ const App = () => (
           
           {/* Manager Routes */}
           <Route path="/manager" element={<ManagerDashboard />} />
-          <Route path="/manager/*" element={<ManagerDashboard />} />
+          <Route path="/manager/leads" element={<ManagerLeads />} />
+          <Route path="/manager/team" element={<ManagerTeam />} />
+          <Route path="/manager/reports" element={<ManagerReports />} />
+          <Route path="/manager/settings" element={<ManagerSettings />} />
           
           {/* Agent Routes */}
           <Route path="/agent" element={<AgentDashboard />} />

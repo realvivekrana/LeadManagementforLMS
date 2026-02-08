@@ -63,7 +63,7 @@ const statusColors: Record<string, string> = {
   lost: "bg-destructive text-destructive-foreground",
 };
 
-const ManagerDashboard = () => {
+const ManagerLeads = () => {
   const [selectedAgent, setSelectedAgent] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -112,47 +112,14 @@ const ManagerDashboard = () => {
   };
 
   return (
-    <ManagerLayout title="Manager Dashboard">
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
-        <SummaryCard
-          title="Total Assigned Leads"
-          value={totalAssigned}
-          icon={ClipboardList}
-          trend={{ value: 12, isPositive: true }}
-          delay={0}
-        />
-        <SummaryCard
-          title="Pending Follow-ups"
-          value={pendingFollowUp}
-          icon={Clock}
-          variant="warning"
-          delay={0.1}
-        />
-        <SummaryCard
-          title="Converted This Month"
-          value={convertedThisMonth}
-          icon={TrendingUp}
-          variant="success"
-          trend={{ value: 8, isPositive: true }}
-          delay={0.2}
-        />
-        <SummaryCard
-          title="Agents Under You"
-          value={agentsUnder}
-          icon={Users}
-          variant="primary"
-          delay={0.3}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+    <ManagerLayout title="Lead Assignment">
+      <div className="grid grid-cols-1 gap-4 md:gap-6 mb-6 md:mb-8">
         {/* Lead Assignment Table */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="xl:col-span-2 rounded-xl border border-border bg-card shadow-sm overflow-hidden"
+          className="rounded-xl border border-border bg-card shadow-sm overflow-hidden"
         >
           <div className="p-4 md:p-6 border-b border-border">
             <div className="flex flex-col gap-4">
@@ -355,69 +322,9 @@ const ManagerDashboard = () => {
             </Table>
           </div>
         </motion.div>
-
-        {/* Agent Performance */}
-        <AgentPerformanceChart />
       </div>
-
-      {/* Agent Performance Table */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="rounded-xl border border-border bg-card shadow-sm overflow-hidden"
-      >
-        <div className="p-4 md:p-6 border-b border-border">
-          <h2 className="text-lg font-semibold text-foreground">Agent Performance</h2>
-        </div>
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-muted/50">
-                <TableHead className="min-w-[150px]">Agent Name</TableHead>
-                <TableHead className="text-center min-w-[120px]">Leads Assigned</TableHead>
-                <TableHead className="text-center min-w-[100px]">Converted</TableHead>
-                <TableHead className="text-center min-w-[100px]">Pending</TableHead>
-                <TableHead className="text-center min-w-[150px]">Conversion Rate</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mockAgents.map((agent, index) => {
-                const conversionRate = Math.round(
-                  (agent.converted / agent.leadsAssigned) * 100
-                );
-                return (
-                  <motion.tr
-                    key={agent.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="hover:bg-card-hover"
-                  >
-                    <TableCell className="font-medium">{agent.name}</TableCell>
-                    <TableCell className="text-center">{agent.leadsAssigned}</TableCell>
-                    <TableCell className="text-center text-success">{agent.converted}</TableCell>
-                    <TableCell className="text-center text-warning">{agent.pending}</TableCell>
-                    <TableCell className="text-center">
-                      <div className="flex items-center justify-center gap-2">
-                        <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-primary rounded-full"
-                            style={{ width: `${conversionRate}%` }}
-                          />
-                        </div>
-                        <span className="text-sm font-medium whitespace-nowrap">{conversionRate}%</span>
-                      </div>
-                    </TableCell>
-                  </motion.tr>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
-      </motion.div>
     </ManagerLayout>
   );
 };
 
-export default ManagerDashboard;
+export default ManagerLeads;
