@@ -74,10 +74,7 @@ const Login = () => {
 
           {/* Logo */}
           <div className="flex items-center gap-3 mb-8">
-            <div className="h-10 w-10 rounded-xl bg-teal-600 flex items-center justify-center shadow-lg">
-              <span className="text-xl font-bold text-white">LF</span>
-            </div>
-            <span className="text-2xl font-bold text-gray-900">LeadFlow Hub</span>
+            <img src="/Athenura logo.png" alt="Athenura" className="h-12 w-auto" />
           </div>
 
           {/* Header */}

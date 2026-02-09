@@ -65,7 +65,7 @@ const AdminSettings = () => {
   // Mock settings data
   const [settings, setSettings] = useState({
     general: {
-      companyName: "LeadFlow Hub",
+      companyName: "Athenura",
       timezone: "UTC-5",
       dateFormat: "MM/DD/YYYY",
       language: "en",
@@ -153,108 +153,154 @@ const AdminSettings = () => {
 
   return (
     <DashboardLayout role="admin" title="Settings">
-      <div className="space-y-6">
-        {/* Header */}
+      <div className="space-y-8">
+        {/* Premium Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-purple-700 to-pink-800 p-8 text-white"
         >
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">System Settings</h1>
-            <p className="text-gray-600">Configure system preferences and security</p>
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `radial-gradient(circle at 25% 25%, white 2px, transparent 2px), 
+                               radial-gradient(circle at 75% 75%, white 2px, transparent 2px)`,
+              backgroundSize: '60px 60px, 80px 80px'
+            }} />
           </div>
-          <div className="flex gap-2">
-            {isChanged && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex gap-2"
-              >
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={resetSettings}
-                  className="border-gray-300 hover:bg-gray-50"
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+              className="flex-1"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <motion.div
+                  animate={{ rotate: [0, 5, -5, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+                  className="p-3 bg-white/20 backdrop-blur-sm rounded-xl"
                 >
-                  <X className="h-4 w-4 mr-2" />
-                  Reset
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={saveSettings}
-                  className="bg-teal-600 hover:bg-teal-700 text-white"
+                  <Settings className="h-8 w-8" />
+                </motion.div>
+                <div>
+                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-indigo-100 bg-clip-text text-transparent">
+                    System Settings
+                  </h1>
+                  <p className="text-indigo-100 mt-1">Configure system preferences and security with precision</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="flex flex-wrap gap-3"
+            >
+              {isChanged && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex gap-2"
                 >
-                  <Save className="h-4 w-4 mr-2" />
-                  Save Changes
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={resetSettings}
+                      className="bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm"
+                    >
+                      <X className="h-4 w-4 mr-2" />
+                      Reset
+                    </Button>
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button
+                      size="sm"
+                      onClick={saveSettings}
+                      className="bg-white hover:bg-gray-50 text-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold"
+                    >
+                      <Save className="h-4 w-4 mr-2" />
+                      Save Changes
+                    </Button>
+                  </motion.div>
+                </motion.div>
+              )}
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={refreshSettings}
+                  className="bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm"
+                >
+                  <motion.div
+                    animate={{ rotate: [0, 360] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  >
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                  </motion.div>
+                  Refresh
                 </Button>
               </motion.div>
-            )}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={refreshSettings}
-              className="border-gray-300 hover:bg-gray-50"
-            >
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={exportSettings}
-              className="border-gray-300 hover:bg-gray-50"
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={exportSettings}
+                  className="bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Export
+                </Button>
+              </motion.div>
+            </motion.div>
           </div>
         </motion.div>
 
-        {/* Settings Tabs */}
+        {/* Enhanced Settings Tabs */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.4 }}
+          className="relative"
         >
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-            <TabsList className="grid w-full grid-cols-5 bg-gray-100">
-              <TabsTrigger 
-                value="general" 
-                className="data-[state=active]:bg-teal-600 data-[state=active]:text-white"
-              >
-                <Settings className="h-4 w-4 mr-2" />
-                General
-              </TabsTrigger>
-              <TabsTrigger 
-                value="security"
-                className="data-[state=active]:bg-teal-600 data-[state=active]:text-white"
-              >
-                <Shield className="h-4 w-4 mr-2" />
-                Security
-              </TabsTrigger>
-              <TabsTrigger 
-                value="notifications"
-                className="data-[state=active]:bg-teal-600 data-[state=active]:text-white"
-              >
-                <Bell className="h-4 w-4 mr-2" />
-                Notifications
-              </TabsTrigger>
-              <TabsTrigger 
-                value="integrations"
-                className="data-[state=active]:bg-teal-600 data-[state=active]:text-white"
-              >
-                <Globe className="h-4 w-4 mr-2" />
-                Integrations
-              </TabsTrigger>
-              <TabsTrigger 
-                value="backup"
-                className="data-[state=active]:bg-teal-600 data-[state=active]:text-white"
-              >
-                <Database className="h-4 w-4 mr-2" />
-                Backup
-              </TabsTrigger>
-            </TabsList>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-gray-50 to-gray-100/50 p-2">
+              <TabsList className="grid w-full grid-cols-5 bg-transparent gap-1">
+                {[
+                  { value: "general", icon: Settings, label: "General" },
+                  { value: "security", icon: Shield, label: "Security" },
+                  { value: "notifications", icon: Bell, label: "Notifications" },
+                  { value: "integrations", icon: Globe, label: "Integrations" },
+                  { value: "backup", icon: Database, label: "Backup" }
+                ].map((tab, index) => (
+                  <motion.div
+                    key={tab.value}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 + index * 0.1 }}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <TabsTrigger 
+                      value={tab.value}
+                      className="relative w-full data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300 rounded-xl"
+                    >
+                      <tab.icon className="h-4 w-4 mr-2" />
+                      <span className="font-medium">{tab.label}</span>
+                      {activeTab === tab.value && (
+                        <motion.div
+                          layoutId="activeTab"
+                          className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl"
+                          style={{ zIndex: -1 }}
+                        />
+                      )}
+                    </TabsTrigger>
+                  </motion.div>
+                ))}
+              </TabsList>
+            </div>
 
             {/* General Settings */}
             <TabsContent value="general" className="space-y-6">

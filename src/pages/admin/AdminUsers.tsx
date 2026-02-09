@@ -16,7 +16,11 @@ import {
   Download,
   RefreshCw,
   Shield,
-  Eye
+  Eye,
+  TrendingUp,
+  UserCheck,
+  Settings,
+  GraduationCap
 } from "lucide-react";
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Button } from "@/components/ui/button";
@@ -265,44 +269,129 @@ const AdminUsers = () => {
 
   return (
     <DashboardLayout role="admin" title="User Management">
-      <div className="space-y-6">
-        {/* Header */}
+      <div className="space-y-8">
+        {/* Premium Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800 p-8 text-white"
         >
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
-            <p className="text-gray-600">Manage your team members and their access levels</p>
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `radial-gradient(circle at 25% 25%, white 2px, transparent 2px), 
+                               radial-gradient(circle at 75% 75%, white 2px, transparent 2px)`,
+              backgroundSize: '60px 60px, 80px 80px'
+            }} />
           </div>
-          <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="border-gray-300 hover:bg-gray-50"
-              onClick={refreshData}
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            {/* Title Section */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+              className="flex-1"
             >
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="border-gray-300 hover:bg-gray-50"
-              onClick={exportToCSV}
+              <div className="flex items-center gap-3 mb-3">
+                <motion.div
+                  animate={{ rotate: [0, 5, -5, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                  className="p-3 bg-white/20 backdrop-blur-sm rounded-xl"
+                >
+                  <Users className="h-6 w-6" />
+                </motion.div>
+                <div>
+                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-teal-100 bg-clip-text text-transparent">
+                    User Management
+                  </h1>
+                  <p className="text-teal-100 mt-1">Manage your team members and their access levels with precision</p>
+                </div>
+              </div>
+
+              {/* Live Metrics Ticker */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="flex flex-wrap items-center gap-6 text-sm"
+              >
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2"
+                >
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="w-2 h-2 bg-green-400 rounded-full"
+                  />
+                  <span className="text-teal-100">Team Active</span>
+                </motion.div>
+                
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2"
+                >
+                  <Shield className="h-4 w-4 text-teal-200" />
+                  <span className="text-teal-100">{filteredUsers.length} Members</span>
+                </motion.div>
+                
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2"
+                >
+                  <CheckCircle className="h-4 w-4 text-teal-200" />
+                  <span className="text-teal-100">Live Management</span>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+
+            {/* Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="flex flex-wrap gap-3"
             >
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-            <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
-              <DialogTrigger asChild>
-                <Button size="sm" className="bg-teal-600 hover:bg-teal-700 text-white">
-                  <UserPlus className="h-4 w-4 mr-2" />
-                  Add User
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  className="bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+                  onClick={refreshData}
+                >
+                  <motion.div
+                    animate={{ rotate: [0, 360] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  >
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                  </motion.div>
+                  Refresh
                 </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-md">
+              </motion.div>
+              
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  className="bg-white/20 hover:bg-white/30 text-white border-0 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+                  onClick={exportToCSV}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Export
+                </Button>
+              </motion.div>
+              
+              <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
+                <DialogTrigger asChild>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button size="sm" className="bg-white hover:bg-gray-50 text-teal-700 shadow-lg hover:shadow-xl transition-all duration-300 font-semibold">
+                      <UserPlus className="h-4 w-4 mr-2" />
+                      Add User
+                    </Button>
+                  </motion.div>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
                 <DialogHeader>
                   <DialogTitle className="text-gray-900">Add New User</DialogTitle>
                 </DialogHeader>
@@ -381,39 +470,426 @@ const AdminUsers = () => {
                 </div>
               </DialogContent>
             </Dialog>
+          </motion.div>
           </div>
         </motion.div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            { label: "Total Users", value: stats.total, icon: Users, color: "bg-teal-600" },
-            { label: "Active Users", value: stats.active, icon: CheckCircle, color: "bg-green-600" },
-            { label: "Administrators", value: stats.admins, icon: Shield, color: "bg-red-600" },
-            { label: "Sales Agents", value: stats.agents, icon: Users, color: "bg-blue-600" }
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <Card className="border-gray-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-gray-600">{stat.label}</p>
-                      <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                    </div>
-                    <div className={`p-2 rounded-lg ${stat.color}`}>
-                      <stat.icon className="h-5 w-5 text-white" />
-                    </div>
+        {/* 3D Statistics Cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+        >
+          <motion.div
+            whileHover={{ 
+              scale: 1.05,
+              rotateX: 5,
+              rotateY: 5,
+            }}
+            whileTap={{ scale: 0.98 }}
+            className="group perspective-1000"
+          >
+            <Card className="relative overflow-hidden bg-gradient-to-br from-teal-50 to-teal-100 border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform-gpu">
+              <div className="absolute inset-0 bg-gradient-to-br from-teal-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="relative p-6 z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="p-3 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl shadow-lg"
+                  >
+                    <Users className="h-6 w-6 text-white" />
+                  </motion.div>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.5, type: "spring" }}
+                    className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full"
+                  >
+                    +12%
+                  </motion.div>
+                </div>
+                
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-600">Total Users</p>
+                  <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
+                    className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-teal-700 bg-clip-text text-transparent"
+                  >
+                    {stats.total}
+                  </motion.p>
+                  <div className="flex items-center text-sm text-green-600 font-medium">
+                    <motion.div
+                      animate={{ y: [0, -2, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <TrendingUp className="h-4 w-4 mr-2" />
+                    </motion.div>
+                    <span>+12% from last month</span>
                   </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+                </div>
+                
+                {/* Animated border */}
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-teal-400 to-teal-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+              </div>
+            </Card>
+          </motion.div>
+          
+          <motion.div
+            whileHover={{ 
+              scale: 1.05,
+              rotateX: 5,
+              rotateY: 5,
+            }}
+            whileTap={{ scale: 0.98 }}
+            className="group perspective-1000"
+          >
+            <Card className="relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-100 border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform-gpu">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="relative p-6 z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="p-3 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg"
+                  >
+                    <CheckCircle className="h-6 w-6 text-white" />
+                  </motion.div>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.6, type: "spring" }}
+                    className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full"
+                  >
+                    +8%
+                  </motion.div>
+                </div>
+                
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-600">Active Users</p>
+                  <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 }}
+                    className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-700 bg-clip-text text-transparent"
+                  >
+                    {stats.active}
+                  </motion.p>
+                  <div className="flex items-center text-sm text-green-600 font-medium">
+                    <motion.div
+                      animate={{ y: [0, -2, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
+                    >
+                      <TrendingUp className="h-4 w-4 mr-2" />
+                    </motion.div>
+                    <span>+8% from last month</span>
+                  </div>
+                </div>
+                
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-green-400 to-emerald-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+              </div>
+            </Card>
+          </motion.div>
+          
+          <motion.div
+            whileHover={{ 
+              scale: 1.05,
+              rotateX: 5,
+              rotateY: 5,
+            }}
+            whileTap={{ scale: 0.98 }}
+            className="group perspective-1000"
+          >
+            <Card className="relative overflow-hidden bg-gradient-to-br from-red-50 to-rose-100 border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform-gpu">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="relative p-6 z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="p-3 bg-gradient-to-br from-red-500 to-rose-600 rounded-xl shadow-lg"
+                  >
+                    <Shield className="h-6 w-6 text-white" />
+                  </motion.div>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.7, type: "spring" }}
+                    className="px-2 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full"
+                  >
+                    SECURE
+                  </motion.div>
+                </div>
+                
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-600">Administrators</p>
+                  <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8 }}
+                    className="text-3xl font-bold bg-gradient-to-r from-red-600 to-rose-700 bg-clip-text text-transparent"
+                  >
+                    {stats.admins}
+                  </motion.p>
+                  <div className="flex items-center text-sm text-red-600 font-medium">
+                    <Shield className="h-4 w-4 mr-2" />
+                    <span>System-level access</span>
+                  </div>
+                </div>
+                
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-red-400 to-rose-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+              </div>
+            </Card>
+          </motion.div>
+          
+          <motion.div
+            whileHover={{ 
+              scale: 1.05,
+              rotateX: 5,
+              rotateY: 5,
+            }}
+            whileTap={{ scale: 0.98 }}
+            className="group perspective-1000"
+          >
+            <Card className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 border-0 shadow-lg hover:shadow-2xl transition-all duration-500 transform-gpu">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="relative p-6 z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg"
+                  >
+                    <Users className="h-6 w-6 text-white" />
+                  </motion.div>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.8, type: "spring" }}
+                    className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full"
+                  >
+                    ACTIVE
+                  </motion.div>
+                </div>
+                
+                <div className="space-y-2">
+                  <p className="text-sm font-medium text-gray-600">Sales Agents</p>
+                  <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.9 }}
+                    className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent"
+                  >
+                    {stats.agents}
+                  </motion.p>
+                  <div className="flex items-center text-sm text-blue-600 font-medium">
+                    <Users className="h-4 w-4 mr-2" />
+                    <span>Front-line team</span>
+                  </div>
+                </div>
+                
+                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-blue-400 to-indigo-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+              </div>
+            </Card>
+          </motion.div>
+        </motion.div>
+
+        {/* User Management Pipeline */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mt-8"
+        >
+          <div className="mb-6">
+            <motion.h3 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.7 }}
+              className="text-xl font-semibold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent mb-2"
+            >
+              User Management Pipeline
+            </motion.h3>
+            <motion.p 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.8 }}
+              className="text-gray-600"
+            >
+              Track user lifecycle from onboarding to active engagement
+            </motion.p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {[
+              { 
+                step: "Registration", 
+                count: 25, 
+                icon: UserPlus, 
+                color: "from-blue-500 to-blue-600",
+                bgColor: "from-blue-50 to-blue-100",
+                description: "New sign-ups",
+                percentage: 15
+              },
+              { 
+                step: "Verification", 
+                count: 22, 
+                icon: Shield, 
+                color: "from-yellow-500 to-orange-600",
+                bgColor: "from-yellow-50 to-orange-100", 
+                description: "Email & identity",
+                percentage: 88
+              },
+              { 
+                step: "Role Assignment", 
+                count: 20, 
+                icon: Settings, 
+                color: "from-purple-500 to-purple-600",
+                bgColor: "from-purple-50 to-purple-100",
+                description: "Access levels",
+                percentage: 91
+              },
+              { 
+                step: "Training", 
+                count: 18, 
+                icon: GraduationCap, 
+                color: "from-indigo-500 to-indigo-600",
+                bgColor: "from-indigo-50 to-indigo-100",
+                description: "Onboarding completed",
+                percentage: 90
+              },
+              { 
+                step: "Active Users", 
+                count: 16, 
+                icon: CheckCircle, 
+                color: "from-green-500 to-green-600",
+                bgColor: "from-green-50 to-green-100",
+                description: "Fully engaged",
+                percentage: 89
+              }
+            ].map((pipeline, index) => (
+              <motion.div
+                key={pipeline.step}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  delay: 0.9 + index * 0.1,
+                  type: "spring",
+                  stiffness: 200,
+                  damping: 20
+                }}
+                whileHover={{ 
+                  scale: 1.05,
+                  rotateY: 5,
+                  transition: { duration: 0.2 }
+                }}
+                className="group perspective-1000"
+              >
+                <Card className={`relative overflow-hidden border-0 shadow-md hover:shadow-xl transition-all duration-500 bg-gradient-to-br ${pipeline.bgColor} transform-gpu`}>
+                  {/* Animated background effect */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${pipeline.color}`} />
+                  </div>
+                  
+                  {/* Progress indicator */}
+                  <div className="absolute top-0 left-0 right-0 h-1">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${pipeline.percentage}%` }}
+                      transition={{ delay: 1.5 + index * 0.2, duration: 1 }}
+                      className={`h-full bg-gradient-to-r ${pipeline.color}`}
+                    />
+                  </div>
+
+                  <div className="relative p-6 z-10">
+                    <div className="flex items-center justify-between mb-4">
+                      <motion.div
+                        whileHover={{ scale: 1.1, rotate: 10 }}
+                        className={`p-3 bg-gradient-to-br ${pipeline.color} rounded-xl shadow-lg`}
+                      >
+                        <pipeline.icon className="h-5 w-5 text-white" />
+                      </motion.div>
+                      
+                      <motion.div
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ delay: 1.2 + index * 0.1, type: "spring" }}
+                        className="text-right"
+                      >
+                        <motion.div 
+                          className="text-2xl font-bold text-gray-800"
+                          key={pipeline.count}
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                        >
+                          {pipeline.count}
+                        </motion.div>
+                        <div className="text-xs text-gray-500 font-medium">
+                          {pipeline.percentage}% conversion
+                        </div>
+                      </motion.div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <h4 className="font-semibold text-gray-800 group-hover:text-gray-900 transition-colors">
+                        {pipeline.step}
+                      </h4>
+                      <p className="text-sm text-gray-600 group-hover:text-gray-700 transition-colors">
+                        {pipeline.description}
+                      </p>
+                    </div>
+
+                    {/* Connection line to next step */}
+                    {index < 4 && (
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 2 + index * 0.2 }}
+                        className="hidden lg:block absolute -right-2 top-1/2 transform -translate-y-1/2 w-4 h-0.5 bg-gradient-to-r from-gray-300 to-gray-400 z-20"
+                      />
+                    )}
+                  </div>
+
+                  {/* Hover glow effect */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${pipeline.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Pipeline insights */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.8 }}
+            className="mt-6 p-4 bg-gradient-to-r from-teal-50 to-emerald-50 rounded-xl border border-teal-200"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <motion.div
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="p-2 bg-teal-500 rounded-lg"
+                >
+                  <TrendingUp className="h-4 w-4 text-white" />
+                </motion.div>
+                <div>
+                  <p className="font-medium text-teal-800">Pipeline Performance</p>
+                  <p className="text-sm text-teal-600">Overall conversion rate: 64% (+5% from last month)</p>
+                </div>
+              </div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="px-4 py-2 bg-teal-500 text-white rounded-lg text-sm font-medium cursor-pointer hover:bg-teal-600 transition-colors"
+              >
+                View Details
+              </motion.div>
+            </div>
+          </motion.div>
+        </motion.div>
 
         {/* Filters and Search */}
         <motion.div
@@ -456,172 +932,332 @@ const AdminUsers = () => {
           </div>
         </motion.div>
 
-        {/* Users Table */}
+        {/* Enhanced Users Table with Premium Animations */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden"
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="relative"
         >
-          {/* Mobile Cards View */}
-          <div className="block sm:hidden">
-            <div className="divide-y divide-gray-200">
+          {/* Premium table container with glow effect */}
+          <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl border border-gray-100">
+            {/* Subtle gradient overlay */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-400 to-transparent opacity-30" />
+            
+            {/* Enhanced Mobile View - Premium Cards */}
+            <div className="md:hidden space-y-4 p-4">
               {filteredUsers.map((user, index) => (
                 <motion.div
                   key={user.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 + index * 0.05 }}
-                  className="p-4 space-y-3"
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ 
+                    duration: 0.4, 
+                    delay: index * 0.1,
+                    type: "spring",
+                    stiffness: 200
+                  }}
+                  whileHover={{ 
+                    scale: 1.02,
+                    y: -5,
+                    transition: { duration: 0.2 }
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  className="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-gray-100 p-6 rounded-2xl border-0 shadow-lg hover:shadow-2xl transition-all duration-500 group"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 bg-teal-600 rounded-full flex items-center justify-center text-white font-medium">
-                      {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                  {/* Animated background gradient */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${
+                      user.status === 'Active' ? 'from-green-400 to-emerald-600' : 'from-gray-400 to-gray-600'
+                    }`} />
+                  </div>
+                  
+                  {/* Progress bar at top */}
+                  <div className="absolute top-0 left-0 right-0 h-1">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      transition={{ delay: 0.5 + index * 0.1, duration: 1 }}
+                      className={`h-full bg-gradient-to-r ${
+                        user.status === 'Active' ? 'from-green-400 to-emerald-600' : 'from-gray-400 to-gray-500'
+                      }`}
+                    />
+                  </div>
+                  
+                  <div className="relative z-10 flex justify-between items-start mb-6">
+                    <div className="flex items-center gap-3">
+                      <motion.div
+                        whileHover={{ scale: 1.1, rotate: 10 }}
+                        className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg"
+                      >
+                        {user.name.split(' ').map(n => n[0]).join('')}
+                      </motion.div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 text-lg">{user.name}</h3>
+                        <p className="text-sm text-gray-600">{user.role}</p>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium text-gray-900 truncate">{user.name}</div>
-                      <div className="text-sm text-gray-600 truncate">{user.email}</div>
-                    </div>
+                    
                     <div className="flex gap-1">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 hover:bg-gray-100"
+                      <motion.button
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 transition-all duration-200 shadow-sm"
                         onClick={() => {
                           setSelectedUser(user);
                           setIsDetailOpen(true);
                         }}
                       >
-                        <Eye className="h-4 w-4 text-gray-600" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 hover:bg-red-50"
+                        <Eye className="h-4 w-4" />
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-2 rounded-lg bg-green-100 hover:bg-green-200 text-green-600 transition-all duration-200 shadow-sm"
+                        onClick={() => handleEditUser(user)}
+                      >
+                        <Edit2 className="h-4 w-4" />
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-2 rounded-lg bg-red-100 hover:bg-red-200 text-red-600 transition-all duration-200 shadow-sm"
                         onClick={() => toggleUserStatus(user.id)}
                       >
-                        <Ban className="h-4 w-4 text-red-600" />
-                      </Button>
+                        <Ban className="h-4 w-4" />
+                      </motion.button>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-3 text-sm">
-                    <div>
-                      <span className="text-gray-500">Role:</span>
-                      <div className="mt-1">{getRoleBadge(user.role)}</div>
+                  
+                  <div className="relative z-10 space-y-4">
+                    <motion.div 
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.6 + index * 0.1 }}
+                      className="p-3 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50"
+                    >
+                      <div className="flex items-center gap-2 text-sm">
+                        <Mail className="h-4 w-4 text-gray-500" />
+                        <span className="font-medium text-gray-900">{user.email}</span>
+                      </div>
+                    </motion.div>
+                    
+                    <div className="flex items-center justify-between">
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.7 + index * 0.1, type: "spring" }}
+                      >
+                        <Badge className={`px-3 py-1 font-semibold shadow-sm ${
+                          user.status === 'Active' 
+                            ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
+                            : 'bg-gradient-to-r from-gray-500 to-gray-600 text-white'
+                        }`}>
+                          ● {user.status}
+                        </Badge>
+                      </motion.div>
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.8 + index * 0.1, type: "spring" }}
+                      >
+                        <span className="text-xs text-gray-500 font-medium">{user.lastLogin}</span>
+                      </motion.div>
                     </div>
-                    <div>
-                      <span className="text-gray-500">Status:</span>
-                      <div className="mt-1">{getStatusBadge(user.status)}</div>
-                    </div>
-                    <div>
-                      <span className="text-gray-500">Department:</span>
-                      <div className="mt-1 text-gray-900">{user.department}</div>
-                    </div>
-                    <div>
-                      <span className="text-gray-500">Last Login:</span>
-                      <div className="mt-1 text-gray-900">{user.lastLogin}</div>
-                    </div>
+                    
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.9 + index * 0.1 }}
+                      className="border-t border-gray-200 pt-3"
+                    >
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Building className="h-4 w-4" />
+                        <span className="font-medium">{user.department}</span>
+                      </div>
+                    </motion.div>
                   </div>
+                  
+                  {/* Ripple effect on tap */}
+                  <motion.div
+                    className="absolute inset-0 bg-teal-400/20 rounded-2xl"
+                    initial={{ scale: 0, opacity: 0.6 }}
+                    whileTap={{ scale: 1.2, opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                  />
                 </motion.div>
               ))}
             </div>
-          </div>
 
-          {/* Desktop Table View */}
-          <div className="hidden sm:block overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50 border-gray-200">
-                  <TableHead className="text-gray-700">User</TableHead>
-                  <TableHead className="text-gray-700">Contact</TableHead>
-                  <TableHead className="text-gray-700">Role</TableHead>
-                  <TableHead className="text-gray-700">Department</TableHead>
-                  <TableHead className="text-gray-700">Status</TableHead>
-                  <TableHead className="text-gray-700">Last Login</TableHead>
-                  <TableHead className="text-right text-gray-700">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredUsers.map((user, index) => (
-                  <motion.tr
-                    key={user.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6 + index * 0.05 }}
-                    className="hover:bg-gray-50 border-gray-200"
+            {/* Enhanced Desktop Table View */}
+            <div className="hidden sm:block overflow-x-auto">
+              <Table className="w-full">
+                <TableHeader>
+                  <TableRow className="bg-gradient-to-r from-teal-600 via-teal-500 to-emerald-600 border-0">
+                    <TableHead className="text-white font-bold min-w-[200px]">User</TableHead>
+                    <TableHead className="text-white font-bold min-w-[200px]">Contact</TableHead>
+                    <TableHead className="text-white font-bold min-w-[120px]">Role</TableHead>
+                    <TableHead className="text-white font-bold min-w-[150px]">Department</TableHead>
+                    <TableHead className="text-white font-bold text-center min-w-[100px]">Status</TableHead>
+                    <TableHead className="text-white font-bold min-w-[130px]">Last Login</TableHead>
+                    <TableHead className="text-white font-bold text-center min-w-[120px]">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                
+                <TableBody>
+                  {filteredUsers.map((user, index) => (
+                    <motion.tr
+                      key={user.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1, duration: 0.3 }}
+                      whileHover={{ 
+                        backgroundColor: "rgba(20, 184, 166, 0.05)",
+                        scale: 1.01,
+                        transition: { duration: 0.2 }
+                      }}
+                      className="border-b border-gray-100 group cursor-pointer"
+                    >
+                      <TableCell className="py-4">
+                        <div className="flex items-center gap-3">
+                          <motion.div
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold shadow-md"
+                          >
+                            {user.name.split(' ').map(n => n[0]).join('')}
+                          </motion.div>
+                          <div>
+                            <p className="font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{user.name}</p>
+                            <p className="text-sm text-gray-500">User</p>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <Mail className="h-3 w-3 text-gray-400" />
+                            <span className="text-sm text-gray-700 font-medium">{user.email}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Phone className="h-3 w-3 text-gray-400" />
+                            <span className="text-xs text-gray-600">{user.phone || 'Not provided'}</span>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: 0.1 + index * 0.05 }}
+                        >
+                          <Badge className={`px-3 py-1 font-semibold shadow-sm ${
+                            user.role === 'Admin' 
+                              ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white'
+                              : user.role === 'Manager'
+                              ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
+                              : user.role === 'Agent'
+                              ? 'bg-gradient-to-r from-teal-500 to-teal-600 text-white'
+                              : 'bg-gradient-to-r from-gray-500 to-gray-600 text-white'
+                          }`}>
+                            {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                          </Badge>
+                        </motion.div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Building className="h-4 w-4 text-gray-400" />
+                          <span className="text-gray-700 font-medium">{user.department}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          initial={{ scale: 0, rotate: -180 }}
+                          animate={{ scale: 1, rotate: 0 }}
+                          transition={{ delay: 0.2 + index * 0.05, type: "spring" }}
+                        >
+                          <Badge className={`px-3 py-1 font-semibold shadow-sm ${
+                            user.status === 'Active' 
+                              ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
+                              : user.status === 'Inactive'
+                              ? 'bg-gradient-to-r from-red-500 to-red-600 text-white'
+                              : 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white'
+                          }`}>
+                            <motion.span
+                              animate={{ scale: [1, 1.2, 1] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                              className="inline-block mr-1"
+                            >
+                              ●
+                            </motion.span>
+                            {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
+                          </Badge>
+                        </motion.div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-gray-600 font-medium">{user.lastLogin}</span>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <div className="flex justify-center gap-1">
+                          <motion.button
+                            whileHover={{ scale: 1.2, y: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 transition-all duration-200 shadow-sm hover:shadow-md"
+                            onClick={() => {
+                              setSelectedUser(user);
+                              setIsDetailOpen(true);
+                            }}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </motion.button>
+                          <motion.button
+                            whileHover={{ scale: 1.2, y: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="p-2 rounded-lg bg-green-100 hover:bg-green-200 text-green-600 transition-all duration-200 shadow-sm hover:shadow-md"
+                            onClick={() => handleEditUser(user)}
+                          >
+                            <Edit2 className="h-4 w-4" />
+                          </motion.button>
+                          <motion.button
+                            whileHover={{ scale: 1.2, y: -2 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="p-2 rounded-lg bg-red-100 hover:bg-red-200 text-red-600 transition-all duration-200 shadow-sm hover:shadow-md"
+                            onClick={() => toggleUserStatus(user.id)}
+                          >
+                            <Ban className="h-4 w-4" />
+                          </motion.button>
+                        </div>
+                      </TableCell>
+                    </motion.tr>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            
+            {/* Table footer with subtle gradient */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.8 }}
+              className="px-6 py-4 bg-gradient-to-r from-gray-50/50 to-transparent border-t border-gray-100"
+            >
+              <div className="flex items-center justify-between text-sm text-gray-500">
+                <span>Showing {filteredUsers.length} of {users.length} users</span>
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 text-teal-600 font-medium cursor-pointer"
+                >
+                  <span>Load more</span>
+                  <motion.div
+                    animate={{ x: [0, 3, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
                   >
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 bg-teal-600 rounded-full flex items-center justify-center text-white font-medium">
-                          {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-                        </div>
-                        <div>
-                          <div className="font-medium text-gray-900">{user.name}</div>
-                          <div className="text-sm text-gray-600">{user.email}</div>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-1 text-sm text-gray-600">
-                          <Mail className="h-3 w-3" />
-                          {user.email}
-                        </div>
-                        <div className="flex items-center gap-1 text-sm text-gray-600">
-                          <Phone className="h-3 w-3" />
-                          {user.phone || "Not provided"}
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>{getRoleBadge(user.role)}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1 text-sm text-gray-600">
-                        <Building className="h-3 w-3" />
-                        {user.department}
-                      </div>
-                    </TableCell>
-                    <TableCell>{getStatusBadge(user.status)}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1 text-sm text-gray-600">
-                        <Calendar className="h-3 w-3" />
-                        {user.lastLogin}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 hover:bg-gray-100"
-                          onClick={() => {
-                            setSelectedUser(user);
-                            setIsDetailOpen(true);
-                          }}
-                        >
-                          <Eye className="h-4 w-4 text-gray-600" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 hover:bg-gray-100"
-                          onClick={() => handleEditUser(user)}
-                        >
-                          <Edit2 className="h-4 w-4 text-gray-600" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 hover:bg-red-50"
-                          onClick={() => toggleUserStatus(user.id)}
-                        >
-                          <Ban className="h-4 w-4 text-red-600" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </motion.tr>
-                ))}
-              </TableBody>
-            </Table>
+                    →
+                  </motion.div>
+                </motion.div>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
 

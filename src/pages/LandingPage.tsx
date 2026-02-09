@@ -75,10 +75,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <div className="h-8 w-8 bg-teal-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">LF</span>
-              </div>
-              <span className="ml-3 text-xl font-bold text-gray-900">LeadFlow Hub</span>
+              <img src="/Athenura logo.png" alt="Athenura" className="h-10 w-auto" />
             </div>
             <div className="flex gap-2">
               <Button 
@@ -238,7 +235,7 @@ const LandingPage = () => {
             >
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
                 Why Choose{" "}
-                <span className="text-teal-600">LeadFlow Hub?</span>
+                <span className="text-teal-600">Athenura?</span>
               </h2>
               <p className="text-xl text-gray-600 mb-8">
                 Join thousands of sales teams who have transformed their lead management process
@@ -335,13 +332,10 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center mb-4 md:mb-0">
-              <div className="h-8 w-8 bg-teal-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">LF</span>
-              </div>
-              <span className="ml-3 text-lg font-semibold text-white">LeadFlow Hub</span>
+              <img src="/Athenura logo.png" alt="Athenura" className="h-10 w-auto" />
             </div>
             <div className="text-center md:text-right">
-              <p>&copy; 2026 LeadFlow Hub. All rights reserved.</p>
+              <p>&copy; 2026 Athenura. All rights reserved.</p>
               <p className="text-sm">Built with modern sales teams in mind.</p>
             </div>
           </div>

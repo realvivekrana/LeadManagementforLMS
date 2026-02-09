@@ -111,12 +111,7 @@ export function DashboardSidebar({ role, isOpen, setIsOpen }: DashboardSidebarPr
               exit={{ opacity: 0 }}
               className="flex items-center gap-2"
             >
-              <div className="h-8 w-8 rounded-lg bg-sidebar-primary flex items-center justify-center">
-                <span className="text-primary font-bold text-lg">A</span>
-              </div>
-              <span className="text-lg font-bold text-sidebar-foreground">
-                Athenura
-              </span>
+              <img src="/Athenura logo.png" alt="Athenura" className="h-10 w-auto" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -161,69 +156,150 @@ export function DashboardSidebar({ role, isOpen, setIsOpen }: DashboardSidebarPr
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-1">
-        {items.map((item) => {
+      <nav className="flex-1 px-3 py-4 space-y-2">
+        {items.map((item, index) => {
           const isActive = location.pathname === item.path;
           const showLabel = !collapsed || isMobile;
           
           return (
-            <NavLink
+            <motion.div
               key={item.path}
-              to={item.path}
-              onClick={handleNavClick}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
-                isActive
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-md"
-                  : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground"
-              )}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ 
+                duration: 0.3, 
+                delay: index * 0.1,
+                ease: "easeOut"
+              }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <item.icon className={cn("h-5 w-5 shrink-0", !showLabel && "mx-auto")} />
-              <AnimatePresence mode="wait">
-                {showLabel && (
-                  <motion.span
-                    initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: "auto" }}
-                    exit={{ opacity: 0, width: 0 }}
-                    className="whitespace-nowrap"
-                  >
-                    {item.label}
-                  </motion.span>
+              <NavLink
+                to={item.path}
+                onClick={handleNavClick}
+                className={cn(
+                  "group relative flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 backdrop-blur-sm",
+                  isActive
+                    ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-primary/25 border border-primary/20"
+                    : "text-sidebar-foreground/80 hover:bg-sidebar-accent/90 hover:text-sidebar-foreground hover:shadow-md hover:border-sidebar-accent/30 border border-transparent"
                 )}
-              </AnimatePresence>
-            </NavLink>
+              >
+                <motion.div
+                  whileHover={{ rotate: isActive ? 0 : 6 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <item.icon className={cn("h-5 w-5 shrink-0", !showLabel && "mx-auto")} />
+                </motion.div>
+                <AnimatePresence mode="wait">
+                  {showLabel && (
+                    <motion.span
+                      initial={{ opacity: 0, width: 0 }}
+                      animate={{ opacity: 1, width: "auto" }}
+                      exit={{ opacity: 0, width: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="whitespace-nowrap"
+                    >
+                      {item.label}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+                {/* Active indicator */}
+                {isActive && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-sidebar-primary-foreground"
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  />
+                )}
+                {/* Hover glow effect */}
+                <motion.div
+                  className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/5 to-primary/10 opacity-0 group-hover:opacity-100"
+                  transition={{ duration: 0.3 }}
+                />
+              </NavLink>
+            </motion.div>
           );
         })}
       </nav>
 
       {/* Role Badge & Logout */}
-      <div className="p-3 border-t border-sidebar-border">
-        <div className={cn(
-          "mb-2 rounded-lg bg-sidebar-accent/50 px-3 py-2",
-          (!collapsed || isMobile) ? "" : "text-center"
-        )}>
-          {(!collapsed || isMobile) && !isMobile && (
-            <p className="text-xs text-sidebar-muted">Logged in as</p>
+      <motion.div 
+        className="p-3 border-t border-sidebar-border/50"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.5 }}
+      >
+        <motion.div 
+          className={cn(
+            "mb-3 rounded-xl bg-gradient-to-r from-sidebar-accent/30 to-sidebar-accent/50 px-4 py-3 backdrop-blur-sm border border-sidebar-accent/20",
+            (!collapsed || isMobile) ? "" : "text-center"
           )}
-          <p className="text-sm font-medium text-sidebar-foreground capitalize">
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.2 }}
+        >
+          {(!collapsed || isMobile) && !isMobile && (
+            <motion.p 
+              className="text-xs text-sidebar-muted mb-1"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+            >
+              Logged in as
+            </motion.p>
+          )}
+          <motion.p 
+            className="text-sm font-semibold text-sidebar-foreground capitalize flex items-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            <motion.span
+              className="inline-block w-2 h-2 rounded-full bg-green-400"
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
             {(!collapsed || isMobile) ? role : role[0].toUpperCase()}
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
+        
         {/* Desktop logout */}
         {!isMobile && (
-          <NavLink
-            to="/"
-            onClick={handleNavClick}
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
-              "text-sidebar-foreground/80 hover:bg-destructive/20 hover:text-destructive-foreground"
-            )}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            <LogOut className={cn("h-5 w-5 shrink-0", (!collapsed || isMobile) ? "" : "mx-auto")} />
-            {(!collapsed || isMobile) && <span>Logout</span>}
-          </NavLink>
+            <NavLink
+              to="/"
+              onClick={handleNavClick}
+              className={cn(
+                "group relative flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300",
+                "text-sidebar-foreground/80 hover:bg-destructive/20 hover:text-destructive-foreground hover:shadow-md backdrop-blur-sm border border-transparent hover:border-destructive/20"
+              )}
+            >
+              <motion.div
+                whileHover={{ rotate: -6 }}
+                transition={{ duration: 0.2 }}
+              >
+                <LogOut className={cn("h-5 w-5 shrink-0", (!collapsed || isMobile) ? "" : "mx-auto")} />
+              </motion.div>
+              {(!collapsed || isMobile) && (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.9 }}
+                >
+                  Logout
+                </motion.span>
+              )}
+              {/* Hover glow effect */}
+              <motion.div
+                className="absolute inset-0 rounded-xl bg-gradient-to-r from-destructive/5 to-destructive/10 opacity-0 group-hover:opacity-100"
+                transition={{ duration: 0.3 }}
+              />
+            </NavLink>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
     </motion.aside>
   );
 }

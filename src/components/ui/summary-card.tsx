@@ -40,68 +40,138 @@ export function SummaryCard({
 }: SummaryCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay }}
-      whileHover={{ scale: 1.02, y: -2 }}
-      whileTap={{ scale: 0.98 }}
+      initial={{ opacity: 0, y: 30, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ 
+        duration: 0.5, 
+        delay,
+        type: "spring",
+        stiffness: 100
+      }}
+      whileHover={{ 
+        scale: 1.03, 
+        y: -4,
+        rotateY: 2,
+        transition: { duration: 0.2 }
+      }}
+      whileTap={{ scale: 0.97 }}
       className={cn(
-        "rounded-lg md:rounded-xl p-3 sm:p-4 md:p-6 shadow-sm transition-shadow hover:shadow-md",
+        "group relative rounded-xl md:rounded-2xl p-4 sm:p-5 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden",
         variantStyles[variant]
       )}
     >
-      <div className="flex items-start justify-between gap-2">
-        <div className="space-y-1 sm:space-y-2 min-w-0">
-          <p
+      {/* Background gradient overlay */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        initial={false}
+      />
+      
+      {/* Animated border */}
+      <motion.div 
+        className="absolute inset-0 rounded-xl md:rounded-2xl border-2 border-transparent group-hover:border-white/20"
+        transition={{ duration: 0.3 }}
+      />
+
+      <div className="relative flex items-start justify-between gap-3">
+        <div className="space-y-2 sm:space-y-3 min-w-0 flex-1">
+          <motion.p
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: delay + 0.1 }}
             className={cn(
-              "text-xs sm:text-sm font-medium truncate",
-              variant === "default" ? "text-muted-foreground" : "opacity-80"
+              "text-xs sm:text-sm font-semibold tracking-wide uppercase truncate",
+              variant === "default" ? "text-muted-foreground" : "text-white/80"
             )}
           >
             {title}
-          </p>
-          <p className={cn(
-            "text-2xl md:text-3xl font-bold tracking-tight",
-            variant === "default" ? "text-gray-900" : "text-white"
-          )}>
+          </motion.p>
+          
+          <motion.p 
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ 
+              delay: delay + 0.2,
+              type: "spring",
+              stiffness: 200
+            }}
+            className={cn(
+              "text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight",
+              variant === "default" ? "text-gray-900" : "text-white"
+            )}
+            whileHover={{ scale: 1.05 }}
+          >
             {value}
-          </p>
+          </motion.p>
+          
           {trend && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: delay + 0.2 }}
-              className={cn(
-                "text-xs font-medium flex items-center gap-1",
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: delay + 0.3 }}
+              className="flex items-center gap-2"
+            >
+              <motion.div
+                animate={{ 
+                  rotate: trend.isPositive ? [0, 5, 0] : [0, -5, 0],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{ 
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+                className={cn(
+                  "flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold",
+                  trend.isPositive 
+                    ? "bg-green-500/20 text-green-600" 
+                    : "bg-red-500/20 text-red-600"
+                )}
+              >
+                {trend.isPositive ? "↗" : "↘"}
+              </motion.div>
+              <p className={cn(
+                "text-xs font-medium",
                 trend.isPositive
                   ? variant === "default" 
                     ? "text-green-600" 
-                    : "text-white/90"
+                    : "text-green-200"
                   : variant === "default"
                   ? "text-red-600"
-                  : "text-white/90"
-              )}
-            >
-              <span className={cn(
-                "text-sm",
-                trend.isPositive ? "text-green-500" : "text-red-500"
+                  : "text-red-200"
               )}>
-                {trend.isPositive ? "↗" : "↘"}
-              </span>
-              {Math.abs(trend.value)}% from last month
-            </motion.p>
+                {Math.abs(trend.value)}% from last month
+              </p>
+            </motion.div>
           )}
         </div>
+        
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: delay + 0.1, type: "spring", stiffness: 200 }}
+          initial={{ scale: 0, rotate: -90 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ 
+            delay: delay + 0.15, 
+            type: "spring", 
+            stiffness: 200,
+            damping: 10
+          }}
+          whileHover={{ 
+            rotate: [0, -5, 5, 0],
+            scale: 1.1,
+            transition: { duration: 0.3 }
+          }}
           className={cn(
-            "rounded-lg p-2 md:p-3 transition-colors duration-200",
+            "relative rounded-xl p-3 md:p-4 transition-all duration-300 shadow-lg",
             iconVariantStyles[variant]
           )}
         >
-          <Icon className="h-4 w-4 md:h-5 md:w-5" />
+          <Icon className="h-5 w-5 md:h-6 md:w-6 relative z-10" />
+          
+          {/* Icon background glow */}
+          <motion.div 
+            className="absolute inset-0 rounded-xl bg-current opacity-20 group-hover:opacity-30"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
         </motion.div>
       </div>
     </motion.div>

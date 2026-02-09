@@ -128,11 +128,40 @@ const LeadManagementPage = () => {
   };
 
   const getStatusBadge = (status: Lead["status"]) => {
-    const step = lifecycleSteps.find(s => s.key === status);
     return (
-      <Badge className={step?.color || "bg-gray-100 text-gray-800"}>
-        {step?.label || status}
-      </Badge>
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        initial={{ scale: 0, rotate: -180 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{ delay: 0.2, type: "spring" }}
+      >
+        <Badge className={`px-3 py-1 font-semibold shadow-sm ${
+          status === 'converted' 
+            ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white'
+            : status === 'qualified'
+            ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
+            : status === 'new'
+            ? 'bg-gradient-to-r from-teal-500 to-teal-600 text-white'
+            : status === 'contacted'
+            ? 'bg-gradient-to-r from-indigo-500 to-indigo-600 text-white'
+            : status === 'proposal'
+            ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white'
+            : status === 'negotiation'
+            ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white'
+            : status === 'lost'
+            ? 'bg-gradient-to-r from-red-500 to-red-600 text-white'
+            : 'bg-gradient-to-r from-gray-500 to-gray-600 text-white'
+        }`}>
+          <motion.span
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="inline-block mr-1"
+          >
+            ●
+          </motion.span>
+          {status.charAt(0).toUpperCase() + status.slice(1)}
+        </Badge>
+      </motion.div>
     );
   };
 
@@ -397,78 +426,239 @@ const LeadManagementPage = () => {
           transition={{ delay: 0.6 }}
           className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden"
         >
-          <div className="overflow-x-auto">
+          {/* Enhanced Mobile View - Premium Cards */}
+          <div className="md:hidden space-y-4 p-4">
+            {filteredLeads.map((lead, index) => (
+              <motion.div
+                key={lead.id}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 0.4, 
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 200
+                }}
+                whileHover={{ 
+                  scale: 1.02,
+                  y: -5,
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.98 }}
+                className="relative overflow-hidden bg-gradient-to-br from-white via-gray-50 to-gray-100 p-6 rounded-2xl border-0 shadow-lg hover:shadow-2xl transition-all duration-500 group"
+              >
+                {/* Animated background gradient */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-emerald-600" />
+                </div>
+                
+                {/* Progress bar at top */}
+                <div className="absolute top-0 left-0 right-0 h-1">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ delay: 0.5 + index * 0.1, duration: 1 }}
+                    className="h-full bg-gradient-to-r from-teal-400 to-emerald-600"
+                  />
+                </div>
+                
+                <div className="relative z-10 flex justify-between items-start mb-6">
+                  <div className="flex items-center gap-3">
+                    <motion.div
+                      whileHover={{ scale: 1.1, rotate: 10 }}
+                      className="w-12 h-12 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg"
+                    >
+                      {lead.name.split(' ').map(n => n[0]).join('')}
+                    </motion.div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 text-lg">{lead.name}</h3>
+                      <p className="text-sm text-gray-600">{lead.status.charAt(0).toUpperCase() + lead.status.slice(1)}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-1">
+                    <motion.button
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 transition-all duration-200 shadow-sm"
+                      onClick={() => {
+                        setSelectedLead(lead);
+                        setIsDetailOpen(true);
+                      }}
+                    >
+                      <Eye className="h-4 w-4" />
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-2 rounded-lg bg-green-100 hover:bg-green-200 text-green-600 transition-all duration-200 shadow-sm"
+                    >
+                      <Edit2 className="h-4 w-4" />
+                    </motion.button>
+                  </div>
+                </div>
+                
+                <div className="relative z-10 space-y-4">
+                  <motion.div 
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.6 + index * 0.1 }}
+                    className="p-3 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50"
+                  >
+                    <div className="flex items-center gap-2 text-sm">
+                      <Mail className="h-4 w-4 text-gray-500" />
+                      <span className="font-medium text-gray-900">{lead.email}</span>
+                    </div>
+                  </motion.div>
+                  
+                  <div className="flex items-center justify-between">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.7 + index * 0.1, type: "spring" }}
+                    >
+                      <Badge className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-1">
+                        {lead.source}
+                      </Badge>
+                    </motion.div>
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.8 + index * 0.1, type: "spring" }}
+                    >
+                      <span className="text-xs text-gray-500 font-medium">{lead.date}</span>
+                    </motion.div>
+                  </div>
+                  
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.9 + index * 0.1 }}
+                    className="border-t border-gray-200 pt-3"
+                  >
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Building className="h-4 w-4" />
+                      <span className="font-medium">{lead.company}</span>
+                    </div>
+                  </motion.div>
+                </div>
+                
+                {/* Ripple effect on tap */}
+                <motion.div
+                  className="absolute inset-0 bg-teal-400/20 rounded-2xl"
+                  initial={{ scale: 0, opacity: 0.6 }}
+                  whileTap={{ scale: 1.2, opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50 border-gray-200">
-                  <TableHead className="text-gray-700">Lead</TableHead>
-                  <TableHead className="text-gray-700">Contact</TableHead>
-                  <TableHead className="text-gray-700">Company</TableHead>
-                  <TableHead className="text-gray-700">Source</TableHead>
-                  <TableHead className="text-gray-700">Status</TableHead>
-                  <TableHead className="text-gray-700">Agent</TableHead>
-                  <TableHead className="text-gray-700">Date</TableHead>
-                  <TableHead className="text-right text-gray-700">Actions</TableHead>
+                <TableRow className="bg-gradient-to-r from-teal-600 via-teal-500 to-emerald-600 border-0">
+                  <TableHead className="text-white font-bold min-w-[150px]">Lead</TableHead>
+                  <TableHead className="text-white font-bold min-w-[200px]">Contact</TableHead>
+                  <TableHead className="text-white font-bold min-w-[150px]">Company</TableHead>
+                  <TableHead className="text-white font-bold text-center min-w-[100px]">Source</TableHead>
+                  <TableHead className="text-white font-bold text-center min-w-[120px]">Status</TableHead>
+                  <TableHead className="text-white font-bold min-w-[150px]">Agent</TableHead>
+                  <TableHead className="text-white font-bold min-w-[100px]">Date</TableHead>
+                  <TableHead className="text-white font-bold text-center min-w-[120px]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredLeads.map((lead, index) => (
                   <motion.tr
                     key={lead.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.7 + index * 0.05 }}
-                    className="hover:bg-gray-50 border-gray-200"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.3 }}
+                    whileHover={{ 
+                      backgroundColor: "rgba(20, 184, 166, 0.05)",
+                      scale: 1.01,
+                      transition: { duration: 0.2 }
+                    }}
+                    className="border-b border-gray-100 group cursor-pointer"
                   >
-                    <TableCell>
-                      <div className="font-medium text-gray-900">{lead.name}</div>
+                    <TableCell className="py-4">
+                      <div className="flex items-center gap-3">
+                        <motion.div
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold shadow-md"
+                        >
+                          {lead.name.split(' ').map(n => n[0]).join('')}
+                        </motion.div>
+                        <div>
+                          <p className="font-bold text-gray-900 group-hover:text-teal-600 transition-colors">{lead.name}</p>
+                          <p className="text-sm text-gray-500">Lead</p>
+                        </div>
+                      </div>
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <div className="flex items-center gap-1 text-sm text-gray-600">
-                          <Mail className="h-3 w-3" />
-                          {lead.email}
+                        <div className="flex items-center gap-2">
+                          <Mail className="h-3 w-3 text-gray-400" />
+                          <span className="text-sm text-gray-700 font-medium">{lead.email}</span>
                         </div>
-                        <div className="flex items-center gap-1 text-sm text-gray-600">
-                          <Phone className="h-3 w-3" />
-                          {lead.phone}
+                        <div className="flex items-center gap-2">
+                          <Phone className="h-3 w-3 text-gray-400" />
+                          <span className="text-xs text-gray-600">{lead.phone}</span>
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-1 text-sm text-gray-600">
-                        <Building className="h-3 w-3" />
-                        {lead.company}
+                      <div className="flex items-center gap-2">
+                        <Building className="h-4 w-4 text-gray-400" />
+                        <span className="text-gray-700 font-medium">{lead.company}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.1 + index * 0.05 }}
+                      >
+                        <Badge className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-1 font-semibold shadow-sm">
+                          {lead.source}
+                        </Badge>
+                      </motion.div>
+                    </TableCell>
+                    <TableCell className="text-center">{getStatusBadge(lead.status)}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                          {lead.assignedAgent.split(' ').map(n => n[0]).join('')}
+                        </div>
+                        <span className="text-gray-700 font-medium">{lead.assignedAgent}</span>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="border-gray-300 text-gray-700">
-                        {lead.source}
-                      </Badge>
+                      <span className="text-gray-600 font-medium">{lead.date}</span>
                     </TableCell>
-                    <TableCell>{getStatusBadge(lead.status)}</TableCell>
-                    <TableCell className="text-gray-600">{lead.assignedAgent}</TableCell>
-                    <TableCell className="text-gray-600">{lead.date}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 hover:bg-gray-100"
+                    <TableCell className="text-center">
+                      <div className="flex justify-center gap-1">
+                        <motion.button
+                          whileHover={{ scale: 1.2, y: -2 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 text-blue-600 transition-all duration-200 shadow-sm hover:shadow-md"
                           onClick={() => {
                             setSelectedLead(lead);
                             setIsDetailOpen(true);
                           }}
                         >
-                          <Eye className="h-4 w-4 text-gray-600" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 hover:bg-gray-100"
+                          <Eye className="h-4 w-4" />
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.2, y: -2 }}
+                          whileTap={{ scale: 0.9 }}
+                          className="p-2 rounded-lg bg-green-100 hover:bg-green-200 text-green-600 transition-all duration-200 shadow-sm hover:shadow-md"
                         >
-                          <Edit2 className="h-4 w-4 text-gray-600" />
-                        </Button>
+                          <Edit2 className="h-4 w-4" />
+                        </motion.button>
                       </div>
                     </TableCell>
                   </motion.tr>

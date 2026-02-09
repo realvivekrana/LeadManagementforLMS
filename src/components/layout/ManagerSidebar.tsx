@@ -83,12 +83,7 @@ export function ManagerSidebar({ isOpen, setIsOpen }: ManagerSidebarProps) {
               exit={{ opacity: 0 }}
               className="flex items-center gap-2"
             >
-              <div className="h-8 w-8 rounded-lg bg-sidebar-primary flex items-center justify-center">
-                <span className="text-primary font-bold text-lg">A</span>
-              </div>
-              <span className="text-lg font-bold text-sidebar-foreground">
-                Athenura
-              </span>
+              <img src="/Athenura logo.png" alt="Athenura" className="h-10 w-auto" />
             </motion.div>
           )}
         </AnimatePresence>
